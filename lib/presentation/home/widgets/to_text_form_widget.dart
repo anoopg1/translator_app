@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:language_translator/presentation/home/screen_home.dart';
 
-class TextFieldWidget extends StatelessWidget {
-  const TextFieldWidget({
+class ToTextFieldWidget extends StatelessWidget {
+  const ToTextFieldWidget({
     super.key,
-    required this.text,
   });
-  final String text;
+
   @override
   Widget build(BuildContext context) {
     int deviceheight = MediaQuery.of(context).size.height.toInt();
@@ -19,7 +18,7 @@ class TextFieldWidget extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(8.0),
         child: TextField(
-          controller: fromtextController,
+          controller: totextController,
           onChanged: (value) {},
           style: TextStyle(color: Colors.white),
           cursorColor: Colors.white,

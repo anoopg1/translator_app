@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:language_translator/core/global_variables.dart';
 
-class BottomModalFromListWidget extends StatelessWidget {
+class BottomModalFromListWidget extends StatefulWidget {
   const BottomModalFromListWidget({
     super.key,
     required this.language,
+    required this.context,
+    required this.onLanguageSelected,
   });
 
   final String language;
+  final BuildContext context;
+  final Function(String) onLanguageSelected;
+
+  @override
+  State<BottomModalFromListWidget> createState() =>
+      _BottomModalFromListWidgetState();
+}
+
+class _BottomModalFromListWidgetState extends State<BottomModalFromListWidget> {
+  @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        widget.onLanguageSelected(widget.language);
+        Navigator.pop(context);
+      },
       child: Container(
         width: MediaQuery.of(context).size.width * 0.90,
         height: MediaQuery.of(context).size.height * 0.10,
@@ -24,7 +38,7 @@ class BottomModalFromListWidget extends StatelessWidget {
             top: 25,
             bottom: 5,
           ),
-          child: Text(language),
+          child: Text(widget.language),
         ),
       ),
     );

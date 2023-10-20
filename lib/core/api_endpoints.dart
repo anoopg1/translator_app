@@ -1,5 +1,4 @@
-final baseurl =
-   'https://google-translate113.p.rapidapi.com/api/v1/translator';
+const baseurl = 'https://google-translate113.p.rapidapi.com/api/v1/translator';
 
 final headers = {
   'content-type': 'application/x-www-form-urlencoded',
@@ -13,5 +12,7 @@ final body = {
   'text': 'xin chào',
 };
 
-const allLanguagesurl ='https://google-translate113.p.rapidapi.com/api/v1/translator/support-languages';
-final translatelext = "$baseurl/text";
+const allLanguagesurl =
+    'https://google-translate113.p.rapidapi.com/api/v1/translator/support-languages';
+const translatelextUrl =
+    "https://google-translate113.p.rapidapi.com/api/v1/translator/text";

@@ -336,7 +336,10 @@ abstract class TranslateText implements HomeEvent {
 /// @nodoc
 mixin _$HomeState {
   List<dynamic> get languages => throw _privateConstructorUsedError;
+  List<dynamic> get languageCode => throw _privateConstructorUsedError;
   String get translatedText => throw _privateConstructorUsedError;
+  String get seletedFromLanguage => throw _privateConstructorUsedError;
+  String get selectedToLnaguage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeStateCopyWith<HomeState> get copyWith =>
@@ -348,7 +351,12 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({List<dynamic> languages, String translatedText});
+  $Res call(
+      {List<dynamic> languages,
+      List<dynamic> languageCode,
+      String translatedText,
+      String seletedFromLanguage,
+      String selectedToLnaguage});
 }
 
 /// @nodoc
@@ -365,16 +373,31 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   @override
   $Res call({
     Object? languages = null,
+    Object? languageCode = null,
     Object? translatedText = null,
+    Object? seletedFromLanguage = null,
+    Object? selectedToLnaguage = null,
   }) {
     return _then(_value.copyWith(
       languages: null == languages
           ? _value.languages
           : languages // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
+      languageCode: null == languageCode
+          ? _value.languageCode
+          : languageCode // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
       translatedText: null == translatedText
           ? _value.translatedText
           : translatedText // ignore: cast_nullable_to_non_nullable
+              as String,
+      seletedFromLanguage: null == seletedFromLanguage
+          ? _value.seletedFromLanguage
+          : seletedFromLanguage // ignore: cast_nullable_to_non_nullable
+              as String,
+      selectedToLnaguage: null == selectedToLnaguage
+          ? _value.selectedToLnaguage
+          : selectedToLnaguage // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -388,7 +411,12 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       __$$HomeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<dynamic> languages, String translatedText});
+  $Res call(
+      {List<dynamic> languages,
+      List<dynamic> languageCode,
+      String translatedText,
+      String seletedFromLanguage,
+      String selectedToLnaguage});
 }
 
 /// @nodoc
@@ -403,16 +431,31 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? languages = null,
+    Object? languageCode = null,
     Object? translatedText = null,
+    Object? seletedFromLanguage = null,
+    Object? selectedToLnaguage = null,
   }) {
     return _then(_$HomeStateImpl(
       languages: null == languages
           ? _value._languages
           : languages // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
+      languageCode: null == languageCode
+          ? _value._languageCode
+          : languageCode // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
       translatedText: null == translatedText
           ? _value.translatedText
           : translatedText // ignore: cast_nullable_to_non_nullable
+              as String,
+      seletedFromLanguage: null == seletedFromLanguage
+          ? _value.seletedFromLanguage
+          : seletedFromLanguage // ignore: cast_nullable_to_non_nullable
+              as String,
+      selectedToLnaguage: null == selectedToLnaguage
+          ? _value.selectedToLnaguage
+          : selectedToLnaguage // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -422,8 +465,13 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 
 class _$HomeStateImpl implements _HomeState {
   const _$HomeStateImpl(
-      {required final List<dynamic> languages, required this.translatedText})
-      : _languages = languages;
+      {required final List<dynamic> languages,
+      required final List<dynamic> languageCode,
+      required this.translatedText,
+      required this.seletedFromLanguage,
+      required this.selectedToLnaguage})
+      : _languages = languages,
+        _languageCode = languageCode;
 
   final List<dynamic> _languages;
   @override
@@ -433,12 +481,24 @@ class _$HomeStateImpl implements _HomeState {
     return EqualUnmodifiableListView(_languages);
   }
 
+  final List<dynamic> _languageCode;
+  @override
+  List<dynamic> get languageCode {
+    if (_languageCode is EqualUnmodifiableListView) return _languageCode;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_languageCode);
+  }
+
   @override
   final String translatedText;
+  @override
+  final String seletedFromLanguage;
+  @override
+  final String selectedToLnaguage;
 
   @override
   String toString() {
-    return 'HomeState(languages: $languages, translatedText: $translatedText)';
+    return 'HomeState(languages: $languages, languageCode: $languageCode, translatedText: $translatedText, seletedFromLanguage: $seletedFromLanguage, selectedToLnaguage: $selectedToLnaguage)';
   }
 
   @override
@@ -448,13 +508,24 @@ class _$HomeStateImpl implements _HomeState {
             other is _$HomeStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._languages, _languages) &&
+            const DeepCollectionEquality()
+                .equals(other._languageCode, _languageCode) &&
             (identical(other.translatedText, translatedText) ||
-                other.translatedText == translatedText));
+                other.translatedText == translatedText) &&
+            (identical(other.seletedFromLanguage, seletedFromLanguage) ||
+                other.seletedFromLanguage == seletedFromLanguage) &&
+            (identical(other.selectedToLnaguage, selectedToLnaguage) ||
+                other.selectedToLnaguage == selectedToLnaguage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_languages), translatedText);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_languages),
+      const DeepCollectionEquality().hash(_languageCode),
+      translatedText,
+      seletedFromLanguage,
+      selectedToLnaguage);
 
   @JsonKey(ignore: true)
   @override
@@ -466,12 +537,21 @@ class _$HomeStateImpl implements _HomeState {
 abstract class _HomeState implements HomeState {
   const factory _HomeState(
       {required final List<dynamic> languages,
-      required final String translatedText}) = _$HomeStateImpl;
+      required final List<dynamic> languageCode,
+      required final String translatedText,
+      required final String seletedFromLanguage,
+      required final String selectedToLnaguage}) = _$HomeStateImpl;
 
   @override
   List<dynamic> get languages;
   @override
+  List<dynamic> get languageCode;
+  @override
   String get translatedText;
+  @override
+  String get seletedFromLanguage;
+  @override
+  String get selectedToLnaguage;
   @override
   @JsonKey(ignore: true)
   _$$HomeStateImplCopyWith<_$HomeStateImpl> get copyWith =>

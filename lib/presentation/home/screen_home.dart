@@ -5,56 +5,73 @@ import 'package:language_translator/core/constants.dart';
 import 'package:language_translator/core/global_variables.dart';
 import 'package:language_translator/presentation/home/widgets/bottom_modal_from_list_widget.dart';
 import 'package:language_translator/presentation/home/widgets/bottom_modal_to_list.dart';
-import 'package:language_translator/presentation/home/widgets/text_form_widget.dart';
+import 'package:language_translator/presentation/home/widgets/from_text_form_widget.dart';
+import 'package:language_translator/presentation/home/widgets/to_text_form_widget.dart';
 
 final fromtextController = TextEditingController();
 final totextController = TextEditingController();
 
-class ScreenHome extends StatelessWidget {
+class ScreenHome extends StatefulWidget {
   const ScreenHome({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    //Loading all Languages from API
-    BlocProvider.of<HomeBloc>(context).add(HomeEvent.getAllLanguages());
+  State<ScreenHome> createState() => _ScreenHomeState();
+}
+
+class _ScreenHomeState extends State<ScreenHome> {
+  @override
+  Widget build(BuildContext homecontext) {
+    // Loading all Languages from API
+    BlocProvider.of<HomeBloc>(homecontext).add(HomeEvent.getAllLanguages());
+
+    void onFromLanguageSelected(String selectedLanguage) {
+      setState(() {
+        fromLanguage = selectedLanguage;
+        fromText = selectedLanguage;
+      });
+    }
+
+    void onToLanguageSelected(String selectedLanguage) {
+      setState(() {
+        toLanguage = selectedLanguage;
+        toText = selectedLanguage;
+      });
+    }
 
     return Scaffold(
       body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView(
-          children: [
-            kheight14,
-
-            //Header
-
-            const Text(
-              "Text Translator",
-              style: TextStyle(fontSize: 20),
-            ),
-            kheight14,
-            const Divider(
-              color: Colors.white,
-            ),
-            //Buttons to select language
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                //From Button
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.35,
-                  child: ElevatedButton(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+            children: [
+              kheight14,
+              const Text(
+                "Text Translator",
+                style: TextStyle(fontSize: 20),
+              ),
+              kheight14,
+              const Divider(
+                color: Colors.white,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(homecontext).size.width * 0.35,
+                    child: ElevatedButton(
                       style: const ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Colors.grey)),
+                        backgroundColor: MaterialStatePropertyAll(Colors.grey),
+                      ),
                       onPressed: () {
                         showModalBottomSheet(
                           backgroundColor: Colors.grey.shade700,
                           shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(14),
-                                  topRight: Radius.circular(14))),
-                          context: context,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(14),
+                              topRight: Radius.circular(14),
+                            ),
+                          ),
+                          context: homecontext,
                           builder: (context) => Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
@@ -64,17 +81,20 @@ class ScreenHome extends StatelessWidget {
                                 kheight14,
                                 TextField(
                                   decoration: InputDecoration(
-                                      prefixIcon: const Icon(Icons.search),
-                                      prefixIconColor: Colors.grey.shade400,
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.grey.shade400))),
+                                    prefixIcon: const Icon(Icons.search),
+                                    prefixIconColor: Colors.grey.shade400,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.grey.shade400,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                                 const Divider(),
                                 Expanded(
-                                    child: BlocBuilder<HomeBloc, HomeState>(
-                                  builder: (context, state) {
-                                    return ListView.separated(
+                                  child: BlocBuilder<HomeBloc, HomeState>(
+                                    builder: (context, state) {
+                                      return ListView.separated(
                                         itemBuilder: (context, index) {
                                           if (state.languages.isNotEmpty) {
                                             print(
@@ -82,9 +102,12 @@ class ScreenHome extends StatelessWidget {
                                             return BottomModalFromListWidget(
                                               language: state.languages[index]
                                                   .toString(),
+                                              context: homecontext,
+                                              onLanguageSelected:
+                                                  onFromLanguageSelected,
                                             );
                                           } else {
-                                            return Center(
+                                            return const Center(
                                               child:
                                                   CircularProgressIndicator(),
                                             );
@@ -92,46 +115,49 @@ class ScreenHome extends StatelessWidget {
                                         },
                                         separatorBuilder: (context, index) =>
                                             kheight14,
-                                        itemCount: state.languages.length);
-                                  },
-                                ))
+                                        itemCount: state.languages.length,
+                                      );
+                                    },
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                         );
                       },
-                      child: Text("fromLanguage")),
-                ),
-
-                // icon
-                const Column(
-                  children: [
-                    Icon(
-                      Icons.arrow_forward,
-                      size: 12,
-                      color: Colors.white,
+                      child: Text(fromLanguage),
                     ),
-                    Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                      size: 12,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.35,
-                  child: ElevatedButton(
+                  ),
+                  const Column(
+                    children: [
+                      Icon(
+                        Icons.arrow_forward,
+                        size: 12,
+                        color: Colors.white,
+                      ),
+                      Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: 12,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(homecontext).size.width * 0.35,
+                    child: ElevatedButton(
                       style: const ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Colors.grey)),
+                        backgroundColor: MaterialStatePropertyAll(Colors.grey),
+                      ),
                       onPressed: () {
                         showModalBottomSheet(
                           backgroundColor: Colors.grey.shade700,
                           shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(14),
-                                  topRight: Radius.circular(14))),
-                          context: context,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(14),
+                              topRight: Radius.circular(14),
+                            ),
+                          ),
+                          context: homecontext,
                           builder: (context) => Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
@@ -141,66 +167,77 @@ class ScreenHome extends StatelessWidget {
                                 kheight14,
                                 TextField(
                                   decoration: InputDecoration(
-                                      prefixIcon: const Icon(Icons.search),
-                                      prefixIconColor: Colors.grey.shade400,
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.grey.shade400))),
+                                    prefixIcon: const Icon(Icons.search),
+                                    prefixIconColor: Colors.grey.shade400,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.grey.shade400,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                                 const Divider(),
                                 Expanded(
-                                    child: BlocBuilder<HomeBloc, HomeState>(
-                                  builder: (context, state) {
-                                    if (state.languages.isNotEmpty) {
-                                      return ListView.separated(
+                                  child: BlocBuilder<HomeBloc, HomeState>(
+                                    builder: (context, state) {
+                                      if (state.languages.isNotEmpty) {
+                                        return ListView.separated(
                                           itemBuilder: (context, index) =>
                                               BottomModalToListWidget(
-                                                language: state.languages[index]
-                                                    .toString(),
-                                              ),
+                                            language: state.languages[index]
+                                                .toString(),
+                                            onLanguageSelected:
+                                                onToLanguageSelected,
+                                            context: context,
+                                          ),
                                           separatorBuilder: (context, index) =>
                                               kheight14,
-                                          itemCount: 11);
-                                    } else {
-                                      return Center(
-                                          child: CircularProgressIndicator());
-                                    }
-                                  },
-                                ))
+                                          itemCount: 11,
+                                        );
+                                      } else {
+                                        return Center(
+                                            child: CircularProgressIndicator());
+                                      }
+                                    },
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                         );
                       },
-                      child: Text("toLanguage")),
+                      child: Text(toLanguage),
+                    ),
+                  ),
+                ],
+              ),
+              kheight14,
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text("Translate from $fromText"),
+              ),
+              kheight14,
+              Center(
+                child: FromTextFieldWidget(
+                  fromLanguage: fromLanguage,
+                  toLanguage: toLanguage,
                 ),
-              ],
-            ),
-            kheight14,
-            //translate from textfield
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text("Translate from $fromLanguage"),
-            ),
-            kheight14,
-            Center(
-                child: TextFieldWidget(
-              text: fromtextController.text,
-            )),
-            kheight14,
-            //translate to textfield
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text("Translate to $toLanguage"),
-            ),
-            kheight14,
-            Center(
-                child: TextFieldWidget(
-              text: '',
-            ))
-          ],
+              ),
+              kheight14,
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text("Translate to $toText"),
+              ),
+              kheight14,
+              Center(child: BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  return ToTextFieldWidget();
+                },
+              )),
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }
