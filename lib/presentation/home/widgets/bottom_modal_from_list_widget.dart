@@ -10,11 +10,7 @@ class BottomModalFromListWidget extends StatelessWidget {
   final String language;
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        fromLanguage = language;
-
-        Navigator.pop(context);
-      },
+      onTap: () {},
       child: Container(
         width: MediaQuery.of(context).size.width * 0.90,
         height: MediaQuery.of(context).size.height * 0.10,

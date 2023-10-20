@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:language_translator/bloc/home/home_bloc.dart';
 import 'package:language_translator/core/constants.dart';
 import 'package:language_translator/core/global_variables.dart';
 import 'package:language_translator/presentation/home/widgets/bottom_modal_from_list_widget.dart';
@@ -15,7 +16,7 @@ class ScreenHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Loading all Languages from API
-    // BlocProvider.of<HomeBloc>(context).add(HomeEvent.getAllLanguages());
+    BlocProvider.of<HomeBloc>(context).add(HomeEvent.getAllLanguages());
 
     return Scaffold(
       body: SafeArea(
@@ -71,16 +72,29 @@ class ScreenHome extends StatelessWidget {
                                 ),
                                 const Divider(),
                                 Expanded(
-                                    child: ListView.separated(
+                                    child: BlocBuilder<HomeBloc, HomeState>(
+                                  builder: (context, state) {
+                                    return ListView.separated(
                                         itemBuilder: (context, index) {
-                                          return BottomModalFromListWidget(
-                                            language:
-                                                "eng",
-                                          );
+                                          if (state.languages.isNotEmpty) {
+                                            print(
+                                                "length:${state.languages.length}");
+                                            return BottomModalFromListWidget(
+                                              language: state.languages[index]
+                                                  .toString(),
+                                            );
+                                          } else {
+                                            return Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          }
                                         },
                                         separatorBuilder: (context, index) =>
                                             kheight14,
-                                        itemCount: 11))
+                                        itemCount: state.languages.length);
+                                  },
+                                ))
                               ],
                             ),
                           ),
@@ -135,14 +149,24 @@ class ScreenHome extends StatelessWidget {
                                 ),
                                 const Divider(),
                                 Expanded(
-                                    child: ListView.separated(
-                                        itemBuilder: (context, index) =>
-                                            BottomModalToListWidget(
-                                              language: "Eng",
-                                            ),
-                                        separatorBuilder: (context, index) =>
-                                            kheight14,
-                                        itemCount: 11))
+                                    child: BlocBuilder<HomeBloc, HomeState>(
+                                  builder: (context, state) {
+                                    if (state.languages.isNotEmpty) {
+                                      return ListView.separated(
+                                          itemBuilder: (context, index) =>
+                                              BottomModalToListWidget(
+                                                language: state.languages[index]
+                                                    .toString(),
+                                              ),
+                                          separatorBuilder: (context, index) =>
+                                              kheight14,
+                                          itemCount: 11);
+                                    } else {
+                                      return Center(
+                                          child: CircularProgressIndicator());
+                                    }
+                                  },
+                                ))
                               ],
                             ),
                           ),
@@ -170,7 +194,10 @@ class ScreenHome extends StatelessWidget {
               child: Text("Translate to $toLanguage"),
             ),
             kheight14,
-            const Center(child: TextFieldWidget())
+            Center(
+                child: TextFieldWidget(
+              text: '',
+            ))
           ],
         ),
       )),
