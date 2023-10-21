@@ -1,8 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:language_translator/core/global_variables.dart';
-import 'package:language_translator/presentation/home/screen_home.dart';
+
 import 'package:language_translator/services/home_services.dart';
 part 'home_event.dart';
 part 'home_state.dart';

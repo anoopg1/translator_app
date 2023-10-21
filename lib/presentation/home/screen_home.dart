@@ -22,7 +22,8 @@ class _ScreenHomeState extends State<ScreenHome> {
   @override
   Widget build(BuildContext homecontext) {
     // Loading all Languages from API
-    BlocProvider.of<HomeBloc>(homecontext).add(HomeEvent.getAllLanguages());
+    BlocProvider.of<HomeBloc>(homecontext)
+        .add(const HomeEvent.getAllLanguages());
 
     void onFromLanguageSelected(String selectedLanguage) {
       setState(() {
@@ -97,8 +98,6 @@ class _ScreenHomeState extends State<ScreenHome> {
                                       return ListView.separated(
                                         itemBuilder: (context, index) {
                                           if (state.languages.isNotEmpty) {
-                                            print(
-                                                "length:${state.languages.length}");
                                             return BottomModalFromListWidget(
                                               language: state.languages[index]
                                                   .toString(),
@@ -192,10 +191,10 @@ class _ScreenHomeState extends State<ScreenHome> {
                                           ),
                                           separatorBuilder: (context, index) =>
                                               kheight14,
-                                          itemCount: 11,
+                                          itemCount: state.languages.length,
                                         );
                                       } else {
-                                        return Center(
+                                        return const Center(
                                             child: CircularProgressIndicator());
                                       }
                                     },
@@ -231,7 +230,7 @@ class _ScreenHomeState extends State<ScreenHome> {
               kheight14,
               Center(child: BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
-                  return ToTextFieldWidget();
+                  return const ToTextFieldWidget();
                 },
               )),
             ],
